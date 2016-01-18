@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>闭包的简单理解</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	/*
+	1、闭包的含义：
+	就是有权访问另一个函数作用域的变量的函数。
+	*/
+	//一个简单的场景:比较函数
+	function createComparison(propertyName){
+		var param = propertyName;//为了明显体现propertyName是createComparison的字段特地赋值；
+
+		return function(obj1,obj2){
+			var item1 = obj1[param];
+			var item2 = obj2[param];
+			if (item1 > item2) {
+				return -1;
+			}
+			if(item1 < item2){
+				return 1;
+			}
+			if(item1 == item2){
+				return 0;
+			}
+		}
+	}
+	//比较年纪
+	var compare = createComparison("age");
+	var result = compare({ name: "d", age: 20 }, { name: "c", age: 27 });
+	console.log(result);
+	/*
+	这是一个比较经典的例子，在使用compare时，我的匿名函数是可以访问到createComparison函数中的
+	param字段
+	在chorme的调试中可以清楚的看到，局部函数变量里面是local中的，包含函数中的变量closure还有全局变量global
+	*/
+
+	//更深刻的例子
+
+	var arr = Array();
+	function Person(){
+		for (var i = 0; i < 10; i++) {
+			var item  = function(){ //将整个函数压入数组中，等待后面被调用，当被调用的时候i已经变成10；
+				return i ;
+			}
+			arr.push(item);
+		};
+	}
+
+	Person();
+
+	for (var i = 0; i <10; i++) {
+		console.log(arr[i]() +"\n");
+	};
+	//解决方案
+	/*var arr = Array();
+		function Person(){
+			for (var i = 0; i < 10; i++) {
+				var item  = (function(j){
+					return function(){
+						return j;
+					}
+				})(i);
+				arr.push(item);
+			};
+		}
+
+		Person();
+
+		for (var i = 0; i <10; i++) {
+			console.log(arr[i]() +"\n");
+		};*/
+
+</script>
+</html>
