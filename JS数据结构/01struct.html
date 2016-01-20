@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>二维数组和多维数组</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	Array.matrix = function (rows,cols,init){
+		var arr = [];
+		for (var i = 0; i < rows; i++) {
+			var col = [];
+			for (var j = 0; j < cols; j++) {
+				col[j] = init;
+			}
+		arr[i] = col;
+		}
+	return arr;
+	}
+
+	var nums = Array.matrix(5,5,0);
+	console.log(nums);
+</script>
+</html>

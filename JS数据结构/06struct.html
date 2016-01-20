@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>进制转换，针对2进制到9进制</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function stack(){		
+		this.dataStore = [];
+		//记录栈顶元素
+		this.top = 0;
+		//出栈
+		this.pop = pop;
+		//入栈
+		this.push = push;
+		//返回栈顶元素
+		this.peek = peek;
+		//返回栈长度
+		this.length = length;
+		//清除栈
+		this.clear = clear;
+	}
+	//入栈
+	function push(element){
+		this.dataStore[this.top++] = element;
+	}
+	//出栈
+	function pop(){
+		return this.dataStore[--this.top];
+	}
+	//返回第top-1个元素
+	function peek(){
+		return this.dataStore[this.top-1];
+	}
+	function length(){
+		return this.top;
+	}
+	function clear(){
+		this.top = 0;
+	}
+
+	function mulBsae(num , base,xstack){
+		var stack = stack;
+		do{
+			stack.push(num%base);
+			num = Math.floor(num/base);
+
+		}while(num>0);
+		var conver = '';
+		while(stack.length() > 0){
+			conver += stack.pop();
+		}
+		return conver;
+	}
+
+	var num = 32 ;
+	var base = 2;
+	var stack = new stack();
+	var newNum  = mulBsae(num,base,stack);
+	console.log('conver to newNum :' +newNum);
+</script>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>对象中的数组</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function weekTemp(){
+		//构造数组用来存数据
+		this.dataStore = [];
+		//构造增加元素的方法
+		this.add = add;
+		//构造求平均数的方法
+		this.average = average;
+	}
+	function add(temp){
+		this.dataStore.push(temp);
+	}
+	function average(){
+		var total = 0;
+		for (var i = 0; i < this.dataStore.length; ++i) {
+			total += this.dataStore[i]
+		}
+		return total/this.dataStore.length;
+	}
+
+	var thisWeek = new weekTemp();
+	thisWeek.add(52);
+	thisWeek.add(44);
+	thisWeek.add(66);
+	thisWeek.add(35);
+	thisWeek.add(22);
+	console.log(thisWeek.average());
+</script>
+</html>

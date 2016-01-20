@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>栈的实现</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function stack(){
+		this.dataStore = [];
+		//记录栈顶元素
+		this.top = 0;
+		//出栈
+		this.pop = pop;
+		//入栈
+		this.push = push;
+		//返回栈顶元素
+		this.peek = peek;
+		//返回栈长度
+		this.length = length;
+		//清除栈
+		this.clear = clear;
+	}
+	//入栈
+	function push(element){
+		this.dataStore[this.top++] = element;
+	}
+	//出栈
+	function pop(){
+		return this.dataStore[--this.top];
+	}
+	//返回第top-1个元素
+	function peek(){
+		return this.dataStore[this.top-1];
+	}
+	function length(){
+		return this.top;
+	}
+	function clear(){
+		this.top = 0;
+	}
+
+	//实现
+	var stack = new stack();
+	stack.push('fanc');
+	stack.push('chao');
+	stack.push('copy');
+	stack.push('handsome');
+	console.log('length: '+stack.length());
+	console.log(stack.peek());
+	var poped = stack.pop();
+	console.log('the poped element is :'+poped);
+	stack.clear();
+	console.log(stack.length());
+	stack.push('beauty');
+	console.log(stack.peek());
+</script>
+</html>

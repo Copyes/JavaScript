@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>回文判断</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function stack(){
+		this.dataStore = [];
+		//记录栈顶元素
+		this.top = 0;
+		//出栈
+		this.pop = pop;
+		//入栈
+		this.push = push;
+		//返回栈顶元素
+		this.peek = peek;
+		//返回栈长度
+		this.length = length;
+		//清除栈
+		this.clear = clear;
+	}
+	//入栈
+	function push(element){
+		this.dataStore[this.top++] = element;
+	}
+	//出栈
+	function pop(){
+		return this.dataStore[--this.top];
+	}
+	//返回第top-1个元素
+	function peek(){
+		return this.dataStore[this.top-1];
+	}
+	function length(){
+		return this.top;
+	}
+	function clear(){
+		this.top = 0;
+	}
+	function isPalindrome(sentence,stack){
+		var stack = stack;
+		for (var i = 0; i < sentence.length; i++) {
+			stack.push(sentence[i]);
+		}
+		var rsentence = '';
+		while(stack.length()>0){
+			rsentence += stack.pop();
+		}
+		if (sentence == rsentence) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	var sentence = 'hello';
+	var stack = new stack();
+	if (isPalindrome(sentence,stack)) {
+		console.log(sentence+ ' is a palindrome.');
+	}else{
+		console.log(sentence + 'is not a palindrome');
+	}
+
+	sentence = 'racecar';
+	if (isPalindrome(sentence,stack)) {
+		console.log(sentence+ ' is a palindrome.');
+	}else{
+		console.log(sentence + 'is not a palindrome');
+	}
+</script>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>处理二维数组</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	var grade = [[98,65,78],[77,96,74],[66,88,68]];
+	var rows = grade.length;
+	var score = 0;
+	var  aveGrade = 0.0;
+	for (var row = 0; row < rows; row++) {
+		var cols = grade[row].length;
+		for (var col = 0; col < cols; col++) {
+			score += grade[row][col];
+		}
+		aveGrade = score/cols;
+		console.log('Student'+parseInt(row+1)+' average: '+ aveGrade.toFixed(2));
+		//初始化，避免处理下一组数据的时候把上一组数据加上了****
+		score = 0 ;
+		aveGrade = 0;
+	}
+</script>
+</html>
