@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>文件操作</title>
+<style type="text/css">
+body{
+	font-family: "微软雅黑";
+	background-color: #333;
+}
+.page-wrap{
+	padding:1em;
+	margin: 1em auto;
+	border-top: 5px solid #69c773;
+	width: 600px;
+	min-height: 300px;
+	background-color: #fff;
+}
+.page-wrap h1{
+	margin-top: 0px;
+}
+#fileDisplayArea {
+  margin-top: 2em;
+  width: 100%;
+  overflow-x: auto;
+}
+</style>
+</head>
+<body>
+	<div class="page-wrap">
+		<h1>文件读取</h1>
+		<div>
+			选择一个你要读取的文件
+			<input type="file" id="fileInput">
+		</div>
+		<img id="img" src="" width="100px" height="100px" />
+		<pre id="fileDisplayArea"></pre>
+	</div>
+</body>
+<script type="text/javascript">
+	window.onload = function(){
+		var fileInput = document.getElementById('fileInput');
+		var fileDisplayArea =document.getElementById('img');
+		fileInput.addEventListener('change',function(e){
+			var file = fileInput.files[0];
+			var textType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+			if(file.type.match(textType)){
+				var reader = new FileReader();
+
+				reader.onload = function(e){
+					fileDisplayArea.src = reader.result;
+				}
+
+				reader.readAsDataURL(file); 
+			}else{
+				alert('File not support!');
+			}
+		})
+	}	
+</script>
+</html>
