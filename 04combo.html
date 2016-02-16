@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>转化成驼峰命名法</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function combo(msg){
+		var arr = msg.split('-');
+		for (var i = 1,len = arr.length; i < len; i++) {
+			arr[i] = arr[i].charAt(0).toUpperCase()+arr[i].substr(1,arr[i].length-1);
+		}
+		msg = arr.join("");
+		return msg;
+	}
+	var foo= 'get-element-by-id';
+	console.log(combo(foo));
+</script>
+</html>
