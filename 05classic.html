@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>测试</title>
+</head>
+<body>
+	<ul id="test">
+		<li>这是第一条</li>
+		<li>这是第二条</li>
+		<li>这是第三条</li>
+	</ul>
+</body>
+<script type="text/javascript">
+	//去除重复元素
+	var arr=[1,2,3,3,4,4,5,5,6,1,9,3,25,4];
+	function delRepeat(arr){
+		var newArr = [],
+			obj = {},
+			index = 0,
+			len = arr.length;
+		for (var i = 0; i < len; i++) {
+			if(obj[arr[i]] == undefined){
+				obj[arr[i]] = 1;
+				newArr[index++] = arr[i];
+			}else if(obj[arr[i]] == 1){
+				continue;
+			}
+		}	
+		return newArr;
+	}
+	var newArr = delRepeat(arr);
+	console.log(newArr);
+
+    var oLis = document.getElementById('test').getElementsByTagName('li');
+    for (var i = 0; i < 3; i++) {
+     	oLis[i].onclick = function(){
+     		alert(i);
+     	}
+     }
+
+     var oLis = document.getElementById('test').getElementsByTagName('li');
+     for (var i = 0; i < 3; i++) {
+      	oLis[i].onclick = (function (a){
+      		return function(){
+      			alert(a);
+      		}
+      	})(i);
+      }
+
+
+	for (var i = 0; i < 3; i++) {
+		setTimeout((function(a){
+			console.log(a);
+		})(i),0)
+	}
+
+	function Dog(){
+		this.wow = function(){
+			alert('wow');
+		};
+		this.yelp = function(){
+			this.wow();
+		}
+	}
+
+	function MadDag(){
+		this.yelp = function(){
+			var self = this;
+			/*setInterval(function(){
+				self.wow();
+			},500)*/
+		}
+	}
+
+	MadDag.prototype = new Dog();
+
+	var dog = new Dog();
+	dog.yelp();
+	var madDog = new MadDag();
+	console.log(madDog);
+	madDog.yelp();
+</script>
+</html>
