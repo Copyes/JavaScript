@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>闭包的二次理解</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	//模拟私有变量
+	//这里，Counter 函数返回两个闭包，函数 increment 和函数 get。 这两个函数都维持着 对外部作用域 Counter 的引用，因此总可以访问此作用域内定义的变量 count.
+	function Counter(start){
+		var count = start;
+		return {
+			increment : function(){
+				count++;
+			},
+			get :function(){
+				return count;
+			}
+		}
+	}
+
+	var test = Counter(5);
+	test.increment();
+	console.log(test.get());
+	//为什么不能在外部访问私有变量
+	//因为 JavaScript 中不可以对作用域进行引用或赋值，因此没有办法在外部访问 count 变量。 唯一的途径就是通过那两个闭包。
+	var foo = new Counter(5);
+	foo.other = function(){
+		count = 1000;
+		console.log(count);
+	}
+	//上面的代码不会改变定义在 Counter 作用域中的 count 变量的值，因为 foo.hack 没有 定义在那个作用域内。它将会创建或者覆盖全局变量 count
+	//循环中的闭包
+	for (var i = 0; i < 10; i++) {
+		setTimeout(function(){
+			console.log(i);
+		},1000);
+	};
+	//上面的代码不会输出数字 0 到 9，而是会输出数字 10 十次。当 console.log 被调用的时候，匿名函数保持对外部变量 i 的引用，此时 for循环已经结束， i 的值被修改成了 10.为了得到想要的结果，需要在每次循环中创建变量 i 的拷贝。
+	for (var i = 0; i < 10; i++) {
+		(function(a){
+			setTimeout(function(){
+				console.log(a);
+			},1000);
+		})(i);
+	};
+	//外部的匿名函数会立即执行，并把 i 作为它的参数，此时函数内 a 变量就拥有了 i 的一个拷贝。当传递给 setTimeout 的匿名函数执行时，它就拥有了对 a 的引用，而这个值是不会被循环改变的。有另一个方法完成同样的工作，那就是从匿名包装器中返回一个函数。这和上面的代码效果一样。
+	for (var i = 0; i < 10; i++) {
+		setTimeout((function(a){
+			return function(){
+				console.log(a);
+			}
+		})(i),1000);
+	};
+</script>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>原型思考</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function Foo(){
+		this.value = 42;
+	}
+	Foo.prototype = {
+		method:function(){
+			console.log(111);
+		}
+	};
+	Foo.prototype.say = function(){
+		console.log(222);
+	};
+	var one = new Foo();
+	one.say();
+	console.log(one);
+
+	function Bar(){
+		this.firstName = 'copy';
+	}
+	Bar.prototype = new Foo();
+	Bar.prototype.foo = 'hello';
+
+	Bar.prototype.constructor = Bar;
+
+	var test = new Bar();
+
+	console.log(test);
+</script>
+</html>
