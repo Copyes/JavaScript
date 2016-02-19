@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>事件委托理解2</title>
+</head>
+<body>
+	<input type="button" id="btn" value="添加" />
+	<ul id="ul">
+	  <li>aaaaaaaa</li>
+	  <li>bbbbbbbb</li>
+	  <li>cccccccc</li>
+	</ul>
+</body>
+<script type="text/javascript">
+	window.onload = function(){
+		var oUl = document.getElementById('ul'),
+			oLi = oUl.getElementsByTagName('li'),
+			isNow = 4,
+			oBtn = document.getElementById('btn');
+		//给某元素添加事件的一般做法就是这样，这样的性能非常不好，对dom操作太频繁，特别是在for循环中处理
+		//简直是性能的噩梦啊
+		/*for (var i = 0,len = oLi.length; i < len; i++) {
+			oLi[i].onmouseover = function(){
+				this.style.background = 'red';
+			}
+			oLi[i].onmouseout = function(){
+				this.style.background = '';
+			}
+		}*/
+
+		//新添加的元素
+		oBtn.addEventListener('click',function(){
+			++ isNow;
+			var aLi = document.createElement('li');
+			aLi.innerHTML = 11111*isNow;
+			oUl.appendChild(aLi);
+		});
+
+		//事件委托的做法，简直不能舒服了。给最外层加，利用事件捕获的机制去给待操作的元素加事件，棒棒哒~
+		//还有一个非常棒的好处就是新创建的元素也有之前添加的事件哦，不用事件委托的话是没有的~~~~
+		oUl.addEventListener('mouseover',function(e){
+			var ev = e || window.event,
+				target = ev.target || ev.srcElement;
+
+			if(target.nodeName == 'LI'){
+				target.style.background = 'red';
+			}
+
+		});
+
+		oUl.addEventListener('mouseout',function(e){
+			var ev = e || window.event,
+				target = ev.target || ev.srcElement;
+
+			if(target.nodeName == 'LI'){
+				target.style.background = '';
+			}
+
+		});
+
+
+	}
+</script>
+</html>

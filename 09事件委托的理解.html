@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>事件委托</title>
+<style type="text/css">
+#myDiv{
+	width: 100px;
+	height:100px;
+	background-color: red;
+}
+</style>
+</head>
+<body>
+	<ul id="parent-list">
+		<li id="post-1">Item 1</li>
+		<li id="post-2">Item 2</li>
+		<li id="post-3">Item 3</li>
+		<li id="post-4">Item 4</li>
+		<li id="post-5">Item 5</li>
+		<li id="post-6">Item 6</li>
+	</ul>
+
+	<div id="myDiv">
+		<a href="#" class="one two three">ccc</a>
+		<a href="#" class='classA'>vvvv</a>
+	</div>
+</body>
+<script type="text/javascript">
+	document.getElementById('parent-list').addEventListener('click',function(e){
+		if (e.target && e.target.nodeName == 'LI') {
+			console.log('List Item',e.target.id.replace("post-","active"),'was clicked');
+		}
+	});
+//第一步是给父元素添加事件监听器。当有事件触发监听器时，检查事件的来源，排除非li子元素事件。如果是一个li元素，我们就找到了目标！如果不是一个li元素，事件将被忽略。这个例子非常简单，UL和li是标准的父子搭配。让我们试验一些差异比较大的元素搭配。假设我们有一个父元素div，里面有很多子元素，但我们关心的是里面的一个带有”classA” CSS类的A标记：
+window.onload = function(){
+	document.getElementById('myDiv').addEventListener('click',function(e){
+		console.log(e);
+		if(e.target && e.target.nodeName == 'A'){
+			var classes = e.target.className.split(' ');
+
+			if(classes){
+				for (var i = 0,len = classes.length; i < len; i++) {
+					if(classes[i] == 'classA'){ 
+						console.log('The right element was clicked!');
+					}else{
+						console.log('Another element was clicked!');//会出现三次0.0
+					}
+				}
+			}
+		}
+	});
+}
+	
+</script>
+</html>

@@ -42,6 +42,7 @@
 	//上面的代码不会输出数字 0 到 9，而是会输出数字 10 十次。当 console.log 被调用的时候，匿名函数保持对外部变量 i 的引用，此时 for循环已经结束， i 的值被修改成了 10.为了得到想要的结果，需要在每次循环中创建变量 i 的拷贝。
 	for (var i = 0; i < 10; i++) {
 		(function(a){
+			console.log(a);
 			setTimeout(function(){
 				console.log(a);
 			},1000);
