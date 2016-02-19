@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function Person(name,age){
+		this.name = name;
+		this.age = age;
+	}
+	Person.prototype.sayHi = function(){
+		console.log('Hi! I am ' + this.name);
+	}
+	//函数对象都有的protytype属性，其实就是一个对象.!!!!注意只有函数对象有这个属性，普通对象是没有这个属性的~~
+	console.log(Person.prototype instanceof Object);
+	var one = new Person('fc',18);
+	console.log(one);
+	//下面这句会打印undefined
+	//console.log(one.prototype);
+	//新的对象
+	function Fanchao(name,sex,age){
+		this.sex = sex;
+		//继承了父类的属性
+		Person.call(this,name,age);
+	}
+	//继承Person对象
+	Fanchao.prototype = new Person();
+	Fanchao.prototype.constructor = Fanchao;
+	var me = new  Fanchao('me','nan',18);
+	console.log(me.name);
+	console.log(me.sex);
+	console.log(me.age);
+	//本身自己没有这个方法，就向上查找，沿着原型链向上找
+	console.log(me.sayHi());
+</script>
+</html>
