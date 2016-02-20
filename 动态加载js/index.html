@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>动态加载js</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript" src="./proLoadJs.js"></script>
+<script type="text/javascript">
+	if (MiniSite.Browser.ie) {
+		MiniSite.JsLoader.load("jquery-1.9.1.js",function(){
+			console.log('ie动态加载的jquery');
+			$(function(){
+				console.log('loaded ,then doing sth');
+			});
+		})
+	}else{
+		MiniSite.JsLoader.load('jquery.min.js',function(){
+			console.log('其他浏览器动态加载的jquery.min');
+			$(function(){
+				console.log('loaded ,then doing sth');
+			});
+		})
+	}
+</script>
+</html>
