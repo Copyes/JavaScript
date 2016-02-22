@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>面向对象的写法</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function Person(name,_age,_salary){
+		//公有属性
+		this.name = name;
+		//私有属性
+		var age = _age;
+		var salary = _salary;
+		//私有方法
+		function privateFunc(){
+			console.log("我是Person类的私有属性age，只能在Person类内部使用，初始化后age="+age);
+			console.log('我是Person类的私有函数privateFunc，只能在Person类内部使用');
+		}
+		var privateFunc2 = function(){
+			console.log("我是Person类的私有属性age，只能在Person类内部使用，初始化后salary="+salary);
+			console.log('我是Person类的私有函数privateFunc2，只能在Person类内部使用');
+		}
+
+		privateFunc();
+		privateFunc2();
+	}
+	//使用prototype原型方式定义的方法(public方法)是无法访问类的私有属性和私有方法的
+	//使用prototype原型方式定义Person类的方public方法
+	Person.prototype = {
+		setName:function(name){
+			this.name = name;
+		},
+		getName : function(){
+			return this.name;
+		},
+
+		show:function(){
+			console.log("公有方法");
+		},
+		publicMethod:function(){
+			console.log('公共方法publicMethod');
+		}
+	};
+
+	var p1 = new Person('ljx',18,8500);
+	var p2 = new Person('zc',19,5000);
+	//检验两个对象是不是person的实例
+	console.log('P1结果' + (p1 instanceof Person));
+	console.log('P2结果' + (p2 instanceof Person));
+	//比较两个对象的公有方法是不是内存一致
+	console.log("比较p1和p2这两个对象的show方法的内存地址是否一样：p1.show== p2.show的结果是："+(p1.show == p2.show));
+	//访问公有属性
+	console.log('对象p1的公有属性name '+p1.name);
+	//试图访问私有属性和方法
+	console.log('对象p1的私有属性age '+p1.age,'对象p1的私有属性salary '+p1.salary);
+	//调用公有方法
+	p1.show();
+	//调用公有方法
+	p1.publicMethod();
+	//调用公有方法设置属性
+	p1.setName('fanchao');
+	//调用公有方法获取刚设置的属性
+	p1.getName();
+</script>
+</html>
