@@ -79,5 +79,12 @@
 	var wrap = wrapElement([10,20,3,40,22]);
 	var f = wrap[0];
 	console.log(f());
+
+	//map的使用
+	var names = ['copy','fan','ljx'];
+	var upper = names.map(function(name) {
+		return name.toUpperCase();
+	});
+	console.log(upper);
 </script>
 </html>
