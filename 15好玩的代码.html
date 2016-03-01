@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	var obj = (function(){
+		var publicValue = '公有';
+		var privateValue = '私有';
+
+		function processFunc() {
+			console.log('调用了'+publicValue);
+		}
+		function run(){
+			processFunc();
+			console.log('私有'+privateValue);
+			console.log('公有'+publicValue);
+		}
+
+		return {
+			publicValue : publicValue,
+			run :run
+		}
+	})();
+	obj.run();
+	console.log(obj.publicValue);
+	console.log(obj.privateValue);
+	//obj.processFunc();
+	//好玩的闭包
+	function sandwichMaker(){
+		var makeIngrediend = 'peanut and butter';
+		function make(fillings){
+			return makeIngrediend + 'and' + fillings;
+		}
+		return make('jelly');
+	}
+	var str = sandwichMaker();
+	console.log(str);
+
+	function sandwichMaker2(){
+		var makeIngrediend2 = 'peanut and butter';
+		function make2(fillings){
+			return makeIngrediend2 + 'and' + fillings;
+		}
+		return make2;
+	}
+	var str = sandwichMaker2();
+	console.log(str('apple'));
+	console.log(str('banana'));
+	console.log(str('pear'));
+	//字面量的写法
+	function Box(){
+		var val = undefined;
+		return {
+			set : function(newVal){ val = newVal;},
+			get : function(){return val;},
+			type: function(){ return typeof val;}
+		};
+	}
+
+	var b = new Box();
+	console.log(b.type());
+	b.set('handsome');
+	console.log(b.get());
+	console.log(b.type());
+	//立即执行函数创建局部作用域。
+	function wrapElement(a){
+		var result = [],i,n;
+		for (i = 0 , n = a.length; i < n; i++) {
+			result[i] = function(){ return a[i]*2; }
+		};
+		return result;
+	}
+
+	var wrap = wrapElement([10,20,3,40,22]);
+	var f = wrap[0];
+	console.log(f());
+</script>
+</html>
