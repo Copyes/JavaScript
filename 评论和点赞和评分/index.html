@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+body { font-size: 12px; line-height: 120%; text-align: center; color:#333; padding: 20px;}
+a { color: #333; text-decoration: none;}
+a:hover { text-decoration: underline;}
+* { margin: 0; padding: 0; border: none;}
+.clearfix:after { content:"."; display:block; height:0; clear:both; visibility:hidden}
+.clearfix { *height:1%;}
+/**/
+.list{
+	margin: 0 auto;
+	text-align: left;
+	width: 540px;
+}
+.list .box{
+	position: relative;
+	border-top: 1px solid #eee;
+	width: 100%;
+	padding: 30px 0;
+}
+.box:hover .close{
+	display: block;
+}
+.close{
+	display: none;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 28px;
+	height:28px;
+	font-size: 20px;
+	border: 1px solid #eee;
+	line-height: 27px;
+	text-align: center;
+	background-color: #f2f4f7;
+}
+.close:hover{
+	background-color: #c8d2e2;
+	text-decoration: none;
+}
+.head{
+	float: left;
+	width: 60px;
+	height: 60px;
+	margin-right: 10px;
+}
+.content{
+	float: left;
+	width: 440px;
+}
+.content .main{
+	margin-bottom: 10px;
+}
+.main .text{
+	margin-bottom: 10px;
+}
+.user{
+	color: #369;
+}
+.main img{
+	margin-right: 5px;
+	width: 200px;
+	height: 200px;
+	border: 1px solid #eee;
+}
+.info{
+	height: 20px;
+	line-height: 19px;
+	font-size: 12px;
+	margin: 0 0 10px 0;
+}
+.info .time{
+	float: left;
+	height: 20px;
+	padding-left: 20px;
+	background: url("images/bg1.jpg") no-repeat left top;
+	color: #ccc;
+	line-height: 19px;
+}
+.info .good{
+	float: right;
+	height: 20px;
+	padding-left: 20px;
+	background: url("images/bg2.jpg") no-repeat left top;
+	color: #369;
+	line-height: 19px;
+}
+.info .good:hover{
+	text-decoration: underline;
+	background: url("images/bg3.jpg") no-repeat left top;
+}
+.goodNum{
+	margin-bottom: 10px;
+	height: 20px;
+	background:rgb(247,247,247) url("images/bg2.jpg") no-repeat 5px 5px;
+	padding: 5px 0 5px 25px;
+	line-height: 19px;
+}
+.commit-box{
+	padding: 10px 0;
+	border-top: 1px solid #eee;
+}
+.commit-box:hover{
+	background-color: rgb(247,247,247);
+}
+.commit-box .myhead{
+	float: left;
+	width: 30px;
+	height: 30px;
+	margin-right: 10px;
+}
+.commit-box .comment {
+	float: left;
+	width: 400px;
+}
+.commit-box .comment .comment-time{
+	position: relative;
+	margin-top: 3px;
+	height: 20px;
+	line-height: 17px;
+	color: #ccc;
+}
+.commit-box .comment .comment-praise{
+	position: absolute;
+	right: 44px;
+	bottom: 0px;
+	padding-left: 17px;
+	height: 20px;
+	background: url(images/bg2.jpg) no-repeat;
+	display: none;
+	color: #369;
+
+}
+.commit-box .comment .comment-del{
+	display: none;
+	color: #369;
+	height: 20px;
+	position: absolute;
+	bottom: 0px;
+	right: 10px;
+}
+.commit-box .comment:hover .comment-praise,
+.commit-box .comment:hover .comment-del{
+	display: inline-block;
+}
+.text-box .text-comment{
+	border: 1px solid #eee;
+	display: block;
+	height: 15px;
+	width: 428px;
+	padding: 5px;
+	resize: none;
+	color: #ccc;
+}	
+.text-box .btn{
+	font-size: 12px;
+	font-weight:bold;
+	display: none;
+	float: right;
+	width: 65px;
+	height: 25px;
+	border: 1px solid #0C528D;
+	color: #fff;
+	background-color: #4679AC;
+}
+.text-box .words{
+	display: none;
+	float: right;
+	margin: 7px 10px 0 0 ;
+	color: #666;
+}
+</style>
+</head>
+<body>
+	<div class="list">
+		<div class="box clearfix">
+			<a href="javascript:;" class="close">×</a>
+			<img class="head" src="images/1.jpg" />
+			<div class="content">
+				<div class="main">
+					<p class="text">
+						<span class="user">Copy: </span>
+						轻轻的我走了，正如我轻轻的来；我轻轻的招手，作别西天的云彩。
+					</p>
+					<img src="images/img1.jpg" alt="">
+				</div>
+				<div class="info clearfix">
+					<span class="time">02-14 23:01</span>
+					<a href="javascript:;" class="good">赞</a>
+				</div>
+				<div class="goodNum" total="4">4个人觉得很赞</div>
+				<div class="commit-list">
+					<div class="commit-box clearfix" user="self">
+						<img class="myhead" src="images/my.jpg">
+						<div class="comment">
+							<p class="comment-text">
+								<span class="user">我：</span>
+								写的太好了。
+							</p>
+							<p class="comment-time">
+                                2014-02-19 14:36
+                                <a href="javascript:;" class="comment-praise" total="1" my="0">1 赞</a>
+                                <a href="javascript:;" class="comment-del">删除</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="text-box">
+					<textarea class="text-comment" autocomplete="off">评论...</textarea>
+					<button class="btn">回 复</button>
+					<span class="words"><span class="words-length">0</span>/140</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
