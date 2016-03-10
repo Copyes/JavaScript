@@ -172,6 +172,10 @@ a:hover { text-decoration: underline;}
 	margin: 7px 10px 0 0 ;
 	color: #666;
 }
+.text-box .btn-off { border: 1px solid #ccc; color: #ccc; background: #F7F7F7;}
+.text-box-on .text-comment{ height: 50px; color: #333;}
+.text-box-on .btn{ display: inline;}
+.text-box-on .words{ display: inline;}
 </style>
 </head>
 <body>
@@ -215,6 +219,47 @@ a:hover { text-decoration: underline;}
 				</div>
 			</div>
 		</div>
+
+		<div class="box clearfix">
+			<a href="javascript:;" class="close">×</a>
+			<img class="head" src="images/1.jpg" />
+			<div class="content">
+				<div class="main">
+					<p class="text">
+						<span class="user">人在囧途: </span>
+						三亚的海滩很漂亮。
+					</p>
+					<img src="images/img5.jpg" alt="">
+				</div>
+				<div class="info clearfix">
+					<span class="time">02-14 23:01</span>
+					<a href="javascript:;" class="good">赞</a>
+				</div>
+				<div class="goodNum" total="0" style="display:none;"></div>
+				<div class="commit-list">
+					<div class="commit-box clearfix" user="self">
+						<img class="myhead" src="images/4.jpg">
+						<div class="comment">
+							<p class="comment-text">
+								<span class="user">老鹰：</span>
+								我也想去三亚。
+							</p>
+							<p class="comment-time">
+                                2014-02-19 14:36
+                                <a href="javascript:;" class="comment-praise" total="0" my="0">赞</a>
+                                <a href="javascript:;" class="comment-del">回复</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="text-box">
+					<textarea class="text-comment" autocomplete="off">评论...</textarea>
+					<button class="btn">回 复</button>
+					<span class="words"><span class="words-length">0</span>/140</span>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
+<script type="text/javascript" src="index.js"></script>
 </html>

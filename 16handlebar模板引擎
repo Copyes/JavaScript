@@ -1,0 +1,147 @@
+handlebar的学习
+1.首先handlebar表达式是以{{开始，以}}结束，两个括号之间跟的是内容，一般是数据
+<div class="entry">
+    <h1>{{title}}</h1>
+    <div class="body">
+        {{body}}
+    </div>
+</div>
+2.我们可以通过script标签直接把一段模板加载到浏览器中
+<script id="entry-template" type="text/x-handlebars-template">
+  template content
+</script>
+在javacript中使用Handlebars.compile来编译模板
+var source  = $('entry-template').html();
+var template = Handlebars.compile(source);
+还可以预编译模板。这样的话，就只需要一个更小的运行时库文件，并且对性能来说是一个极大的节约，因为这样就不必在浏览器中编译模板了。这点在移动版的开发中就更显的非常重要了。
+只需要传递一个上下文context执行模板，就可以返回html的值了。
+ var context = {title:"My New Post",body:"This is my body"};
+ var html = template(context);
+ 这样上面就可以得到的html：
+ <div class="entry">
+  <h1>My New Post</h1>
+  <div class="body">
+    This is my  body!
+  </div>
+</div>
+3.Handlebars的 {{expression}} 表达式会返回一个 HTML编码 HTML-escape 过的值。如果不希望Handlebars来编码这些值，使用三个大括号即可：{{{。
+模板：
+<div class="entry">
+  <h1>{{title}}</h1>
+  <div class="body">
+    {{{body}}}
+  </div>
+</div>
+数据源：
+{
+  title: "All about <p> Tags",
+  body: "<p>This is a post about &lt;p&gt; tags</p>"
+}
+得到：
+<div class="entry">
+  <h1>All About &lt;p&gt; Tags</h1>
+  <div class="body">
+    <p>This is a post about &lt;p&gt; tags</p>
+  </div>
+</div>
+4.块级表达式
+块级表达式允许你定义一个helpers，并使用一个不同于当前的上下文（context）来调用你模板的一部分。
+{{#list people}}{{firstName}}{{lastName}}{{/list}}
+数据源：
+{
+	people:[
+		{firstName:"Yehuda",lastName:"katz"},
+		{firstName:"Carl",lastName:"Lerche"},
+		{firstName:"Alan",lastName:"Johnson"}
+	]
+}
+此时需要创建一个 名为 list 的 helper 来生成这段 HTML 列表。这个 helper 使用 people 作为第一个参数，还有一个 options 对象（hash哈希）作为第二个参数。这个 options 对象有一个叫 fn 的属性，你可以传递一个上下文给它（fn），就跟执行一个普通的 Handlebars 模板一样：
+Handlebars.registerHelper('list',function(items,options){
+	var out = "<ul>";
+	for(var i = 0,len = items.length; i < len; i++){
+		out = out + "<li>" + options.fn(items[i]) + "</li>";
+	}
+
+	return out + "</ul>";
+});
+执行后模板渲染为：
+<ul>
+  <li>Yehuda Katz</li>
+  <li>Carl Lerche</li>
+  <li>Alan Johnson</li>
+</ul>
+5.Helpers的用法
+Handlebars 的 helpers 在模板中可以访问任何的上下文。可以通过 Handlebars.registerHelper 方法注册一个 helper。
+<div class="post">
+  <h1>By {{fullName author}}</h1>
+  <div class="body">{{body}}</div>
+
+  <h1>Comments</h1>
+
+  {{#each comments}}
+  <h2>By {{fullName author}}</h2>
+  <div class="body">{{body}}</div>
+  {{/each}}
+</div>
+数据源：
+var context = {
+  author: {firstName: "Alan", lastName: "Johnson"},
+  body: "I Love Handlebars",
+  comments: [{
+    author: {firstName: "Yehuda", lastName: "Katz"},
+    body: "Me too!"
+  }]
+};
+
+Handlebars.registerHelper('fullName',function(person){
+	return person.firstName + " " + person.lastName;
+});
+渲染后的结果：
+<div class="post">
+  <h1>By Alan Johnson</h1>
+  <div class="body">I Love Handlebars</div>
+
+  <h1>Comments</h1>
+
+  <h2>By Yehuda Katz</h2>
+  <div class="body">Me Too!</div>
+</div>
+6.Helpers 会把当前上下文作为函数中的this上下文
+<ul>
+  {{#each items}}
+  <li>{{agree_button}}</li>
+  {{/each}}
+</ul>
+数据源：
+var context = {
+  items: [
+    {name: "Handlebars", emotion: "love"},
+    {name: "Mustache", emotion: "enjoy"},
+    {name: "Ember", emotion: "want to learn"}
+  ]
+};
+
+Handlebars.registerHelper('agree_button',function(){
+	return new Handlebars.SafeString(
+		"<button> I agree . I" + this.emotiom + " " +this.name + "</button>"
+	);
+});
+结果：
+<ul>
+  <li><button>I agree. I love Handlebars</button></li>
+  <li><button>I agree. I enjoy Mustache</button></li>
+  <li><button>I agree. I want to learn Ember</button></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
