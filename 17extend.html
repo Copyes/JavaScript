@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>extend的用法</title>
+</head>
+<body>
+	<ul>
+		<li>
+			<a href="http://www.webo.com/liuwayong">我的微博</a>
+		</li>
+		<li>
+			<a href="http://http://www.cnblogs.com/Wayou/">我的博客</a>
+		</li>
+		<li>
+			<a href="http://wayouliu.duapp.com/">我的小站</a>
+		</li>
+	</ul>
+	<p>这是p标签不是a标签，我不会受影响</p>
+</body>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+//1、extend最简单的用法之一，用来扩展一个函数
+$.extend({
+	sayHello : function(name){
+		console.log('hello,' + (name?name:'Lip') + '!');
+	}
+});
+$.sayHello();
+$.sayHello('fan');
+//2、用来定义一些辅助的方法，例如log
+$.extend({
+	log : function(msg){
+		var now = new Date(),
+			y = now.getFullYear(),
+			m = now.getMonth(),
+			d = now.getDay(),
+			h = now.getHours(),
+			min = now.getMinutes(),
+			s = now.getSeconds();
+		time = y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
+		console.log(time + ' operate by ' + msg); 
+	}
+})
+$.log('Lip');
+//3、往$.fn上面添加方法，这个还是比较实用的。
+//简单的调用
+/*$.fn.myPlugin = function(){
+	this.css('color','red');
+}
+
+$(function(){
+	$('a').myPlugin();
+});*/
+//4、稍微复杂一点的封装，支持链式调用的
+/*$.fn.myPlugin = function(){
+	this.css('color','red');
+	return this.each(function() {
+		$(this).append(' ' + $(this).attr('href'));
+	});
+}
+$(function(){
+	$('a').myPlugin();
+});*/
+//5、再复杂一点的封装,让他接受参数,加一个空对象，避免修改了默认的对象的值
+/*$.fn.myPlugin = function(options){
+	var defaults = {
+		'color' : 'red',
+		'fontSize' : '12px'
+	}
+
+	var settings = $.extend({},defaults,options);
+
+	return this.css({
+		'color' : settings.color,
+		'fontSize' : settings.fontSize
+	});
+}
+$(function(){
+	$('a').myPlugin({
+		'color' : '#2C9929',
+		'fontSize':'20px'
+	});
+});*/
+//6、面向对象的插件开发方式（重要）
+;(function($, window, document,undefined) {
+	var Beautifier = function(ele,opt){
+		this.$element = ele;
+		this.defaults = {
+			'color':'red',
+			'fontSize':'12px',
+			'textDecoration':'none'
+		}
+
+		this.option = $.extend({},this.defaults,opt);
+	}
+
+	Beautifier.prototype = {
+		beautify : function(){
+			return this.$element.css({
+				'color' : this.option.color,
+				'fontSize' : this.option.fontSize,
+				'textDecoration':this.option.textDecoration
+			});
+		}
+	}
+
+	$.fn.myPlugin = function(options){
+		var beautifier = new Beautifier(this,options);
+
+		return beautifier.beautify();
+	}
+
+	$(function(){
+		$('a').myPlugin({
+			'color' : '#2C9929',
+			'fontSize':'20px'
+		});
+	});
+})(jQuery, window, document);
+</script>
+</html>
