@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MDN学习</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function Person(firstName){
+		this.firstName = firstName;
+	}
+	Person.prototype.walk = function(){
+		console.log('i am walking');
+	};
+	Person.prototype.sayHello = function(){
+		console.log("Hi i am " + this.firstName);
+	}
+
+	//定义student构造器
+	function Student(firstName,subject){
+		Person.call(this,firstName);
+
+		this.subject = subject;
+	}
+
+	// 建立一个由Person.prototype继承而来的Student.prototype对象.
+	// 注意: 常见的错误是使用 "new Person()"来建立Student.prototype.
+	// 这样做的错误之处有很多, 最重要的一点是我们在实例化时
+	// 不能赋予Person类任何的FirstName参数
+	// 调用Person的正确位置如下，我们从Student中来调用它
+	Student.prototype = Object.create(Person.prototype);
+	//会将很多属性一并带给student类，例如firstName = undefined；
+	//Student.prototype = new Person();
+	Student.prototype.constructor = Student;
+	Student.prototype.sayHello = function(){
+		console.log("i am " + this.firstName + " in " + this.subject);
+	}
+	Student.prototype.sayGoodBye = function(){
+		console.log('Bye!');
+	}
+
+	//实例测试
+	var person = new Person('ljx');
+	var student1 = new Student('fanchao','math');
+	console.log(person);
+	console.log(student1);
+	student1.sayHello();
+	student1.walk();
+	student1.sayGoodBye();
+
+	console.log(student1 instanceof Person);
+	console.log(student1 instanceof Student);
+</script>
+</html>
