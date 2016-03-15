@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	//利用localstorage做一个前端的缓存
+	(function(){
+
+		function localStorageCache (){
+
+			this.startTime = new Date().getTime();
+			this.expired = null;
+			this.endTime  = null;
+
+		};
+
+		//获取相应的缓存值
+		localStorageCache.prototype.getItem = function(key){
+			var jsonStr;
+			//判断缓存是不是过期，如果过期了就删除对应的缓存信息并返回null
+			this.endTime  = this.startTime + this.expired;
+			console.log(this.endTime);
+			if(new Date().getTime() >= this.endTime){
+				this.removeItem(key);
+				return null;
+			}
+			if(window.localStorage){
+				jsonStr =  window.localStorage.getItem(key);  
+			}
+			var jsonData = JSON.parse(jsonStr);
+			if (!jsonData) {
+				console.log('请检查缓存的键是否存在或者，是否缓存的有数据');
+			}else{
+				var data = jsonData.data;
+			}
+
+			return  data;
+		};
+		//设置缓存值，可选带过期时间
+		localStorageCache.prototype.setItem = function(key,values,time){
+
+			this.expired = time * 1000;
+			console.log(this.expired);
+			if (key && values) {
+				return window.localStorage.setItem(key,JSON.stringify({
+						data:{values}
+					}));
+			}else{
+				console.log('请检查缓存的键是否存在或者，是否缓存的有数据');
+			}
+		};
+		//获取缓存的长度
+		localStorageCache.prototype.getItemLength = function(){
+			return window.localStorage.length;
+		};
+		//删除缓存的值
+		localStorageCache.prototype.removeItem = function(key){
+			return window.localStorage.removeItem(key);
+		};
+		//清楚所有的缓存
+		localStorageCache.prototype.clearAll = function(){
+			return window.localStorage.clear();
+		};
+		//获取对应索引的键值
+		localStorageCache.prototype.getKey = function(index){
+			return window.localStorage.key(index);
+		};
+		//通过索引来获取对应的值
+		localStorageCache.prototype.getItemByIndex = function(){
+			var item = {
+				keyName:'',
+				keyValue:''
+			};
+			item.keyName = localStorageCache.getKey(index);
+			item.keyValue = localStorageCache.getItem(item.keyName);
+			return item;
+		};
+
+		window.localCache  = new localStorageCache();
+	}());
+</script>
+</html>
