@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<span id="time">1天00小时00分00秒</span>
+</body>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+	;(function(){
+		var timer = setInterval(function(){
+			var timeBox = $('#time').text();
+			var totalSec = getFormateTime(timeBox) - 1;
+	        if (totalSec >= 0) {
+	          $('#time').text(dealTimeFormate(totalSec));
+	        } else {
+	          clearInterval(timer);     
+	        }
+		},1000);
+
+		function getFormateTime(time){
+			var reg = /\d+/g;
+			var timeArr = new Array();
+			while((subTime = reg.exec(time)) !== null){
+				timeArr.push(parseInt(subTime));
+			}
+			var second = 0 ,i = 0;
+			if (timeArr.length  == 4) {
+				second += timeArr[0]*24*3600;
+				i = 1;
+			}
+				second += timeArr[i]*3600 + timeArr[++i]*60 + timeArr[++i];
+			return second;
+		}
+		//根据剩余时间生成格式化时间
+		function dealTimeFormate(sec){
+			var s = sec % 60;
+	        sec = (sec - s) / 60; //min
+	        var m = sec % 60;
+	        sec = (sec - m) / 60; //hour
+	        var h = sec % 24;
+	        var d = (sec - h) / 24;//day
+
+        var syTimeStr = "";
+        if (d > 0) {
+          syTimeStr += d.toString() + "天";
+        }
+  
+        syTimeStr += ("0" + h.toString()).substr(-2) + "时"
+              + ("0" + m.toString()).substr(-2) + "分"
+              + ("0" + s.toString()).substr(-2) + "秒";
+  
+        return syTimeStr;
+		}
+	}())
+</script>
+</html>
