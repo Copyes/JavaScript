@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="test1"></div>
+</body>
+<script type="text/javascript">
+	//第一种写法：
+	function Timer(id){
+		this.id = id;
+		this.begin = function(count){
+			this.show(this.id,count)();
+			setInterval(this.show(this.id,count-1),1000);
+		}
+
+
+		this.show = function(id,count){
+			return function(){
+				document.getElementById(id).innerHTML = count < 0 ? "over" : count;
+				count--;
+			}
+		}
+	}
+	//采用最经典的构造函数来实现类。好处是明快易懂，缺点是多个实例都是独立的内存，数据与方法都不共享。而且还存在一个明显的缺陷，计时完成之后，setInterval没有被clear，严重影响了性能。
+	var time = new  Timer('test1');	
+	time.begin(50);
+</script>
+</html>
