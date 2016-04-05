@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	1。使用合适的选择器，尽量给选择器指定上下文：
+	使用ID选择器$('#id')是最佳提高性能的方式，因为jquery直接调用底层的getelementbyid方法，
+	其次应该是标签选择器$('div')等，同样是直接调用底层的方法；接着用类名$('.class'),因为在ie9之前是不支持getelementbyclassname方法的
+	所以谨慎使用它，$("[attribute=value]"),以及$(":hidden")这类用属性和伪选择器定位，jquery需要搜索每一个元素来定位这个选择器，所以还是比较消耗性能的。使用id选择器配合这类选择器就比较好了。例如
+	$("#id").find(":hidden");
+	2.尽量缓存对象
+	很多人写代码的时候会$('#id').bind('click',function(){});
+					 $('#id').css({"color",""});
+					 $('#id').fadeIn("slow");
+	请缓存前面的对象。 $elem = $('#id');
+					$elem.bind('click',function(){});
+					 $elem.css({"color",""});
+					 $elem.fadeIn("slow");
+	还可以使用链式操作，更加方便好：
+					$elem = $('#id');
+					$elem.bind('click',function(){})
+					 	 .css({"color",""})
+					 	.fadeIn("slow");
+	3.循环时的dom操作：在修改或者删除一些dom节点的时候，一定不要循环操作对象
+	例如：  var topList = [...] //假设里面有100个不相同的字符串
+			$mylist = $('#mylist');
+			for(var i = 0;i<topList.length; i++){
+				$mylist.append("<li>" + topList[i]+ "</li>");
+			}   
+	千万不能上面那么做，性能会很差。会操作一百次dom
+	换种写法：
+			var topList = [...] //假设里面有100个不相同的字符串
+			$mylist = $('#mylist');
+			var html = '';
+			for(var i = 0;i<topList.length; i++){
+				html += "<li>" + topList[i]+ "</li>";
+			}  
+			$mylist.html(html);  这样就直操作了一次dom。
+	4.合理利用事件代理
+	当我们想给很多元素都屌用同一个函数的时候，就可以利用冒泡到父级这个特点；例如：我们要给表格绑定一个点击td把背景色设置成红色；
+	$('#myTable td').click(function(){
+		$(this).css({"background","red"});
+	});
+	假设有100个td，那么你就绑定了100个事件，这对页面是一个非常负面的性能影响，换种方式，给父级元素绑事件的话，那么就只要绑定一个事件就好了，大大提高的性能
+	$('#myTable').click(function(){
+		var $clicked = $(e.target);
+		$clicked.css({"background","red"});
+	});
+	jquery提供了一个非常方便的方法on：
+		$('#myTable').on('click','td',function(){
+			$(this).css({"background","red"});
+		});
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
