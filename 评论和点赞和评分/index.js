@@ -57,7 +57,7 @@ window.onload = function(){
 			newPraise = oldPraise - 1;
 			el.setAttribute('total',newPraise);
 			el.setAttribute('my',0);
-			el.innerHTML = (newTotal == 0)?'赞' :newTotal+ '赞';
+			el.innerHTML = (newTotal == 0)?'赞' : newTotal+ '赞';
 		}
 
 		el.style.display = (newTotal == 0) ? '' : 'inline-block';
