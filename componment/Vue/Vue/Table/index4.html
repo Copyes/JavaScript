@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<link rel="stylesheet" href="../bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-6 col-md-offset-3">
+            <h1>vue demo</h1>
+            <div id="app">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-right" @click="sortBy('id')">序号</th>
+                            <th class="text-right" @click="sortBy('name')">书名</th>
+                            <th class="text-right" @click="sortBy('author')">作者</th>
+                            <th class="text-right" @click="sortBy('price')">价格</th>
+                            <th class="text-right">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="book in books | orderBy sortParam">
+                            <td class="text-right">{{book.id}}</td>
+                            <td class="text-right">{{book.name}}</td>
+                            <td class="text-right">{{book.author}}</td>
+                            <td class="text-right">{{book.price}}</td>
+                            <template v-if="book.id%2 === 0">
+                                <td class="text-right">
+                                    <button type="button" class="btn btn-danger" @click="delBook(book)">删除</button>
+                                </td>
+                            </template>
+                            <template v-else>
+                                <td class="text-right">
+                                    <button type="button" class="btn btn-success" @click="delBook(book)">删除</button>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <td class="text-right" colspan="5">
+                                <h4>总价:{{sum}}</h4></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <!--添加书籍的部分-->
+                <div class="add-book">
+                    <legend>添加书籍</legend>
+                    <div class="form-group">
+                        <label for="">书名</label>
+                        <input type="text" class="form-control" v-model="book.name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="">作者</label>
+                        <input type="text" class="form-control" v-model="book.author"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="">价格</label>
+                        <input type="text" class="form-control" v-model="book.price"/>
+                    </div>
+                    <button class="btn btn-success btn-block" v-on:click="addBook()">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript" src="../vue.js"></script>
+<script>
+
+    new Vue({
+        el:"#app",
+        
+        data:{
+            sortParam:'',
+            book:{
+                id:0,
+                author:'',
+                name:'',
+                price:''
+            },
+            books:{}
+        },
+        ready: function(){
+            var that = this;
+            $.ajax({
+                url:'https://api.myjson.com/bins/r8mm',
+                type:'get',
+                dataType:'json',
+                success:function(data){
+                    that.books = data;
+                    console.log(that.books);
+                },
+                error:function(){
+                    console.log('请求失败');
+                }
+            });
+        },
+        computed:{
+            sum : function(){
+                var result = 0;
+                for(var i = 0;i<this.books.length;i++){
+                    result += Number(this.books[i].price);
+                }
+                return result;
+            }
+        },
+        methods:{
+            addBook : function(){
+                this.book.id = this.books.length+1;
+                this.books.push(this.book);
+                this.book = '';
+            },
+            delBook : function(book){
+                this.books.$remove(book);
+            },
+            sortBy : function(sortParam){
+                this.sortParam = sortParam;
+            }
+        }
+    });
+</script>
+</html>

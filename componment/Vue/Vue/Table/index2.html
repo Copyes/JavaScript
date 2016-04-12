@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件监听</title>
+</head>
+<body>
+    <div id="demo">
+        <button v-on:click="clickEvent">触发一个方法</button>
+    </div>
+</body>
+<script type="text/javascript" src="../vue.js"></script>
+<script>
+    new Vue({
+        el:'#demo',
+        data:{
+            n:0
+        },
+        methods:{
+            clickEvent:function(event){
+                console.log('我被点击了');
+            }
+        }
+    });
+</script>
+</html>

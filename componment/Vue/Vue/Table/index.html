@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="demo">
+        <li v-for="item in items">
+            {{$index}} -- {{parentMsg}} -- {{item.childMsg}}
+        </li>
+    </ul>
+</body>
+<script type="text/javascript" src="../vue.js"></script>
+<script type="text/javascript">
+    var demo = new Vue({
+        el:'#demo',
+        data:{
+            parentMsg:'hello',
+            items:[
+                {childMsg : 'chao'},
+                {childMsg : 'copy'}
+            ]
+        }
+    });
+</script>
+</html>
