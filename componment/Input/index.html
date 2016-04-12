@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>组件化实例操作</title>
+</head>
+<body>
+	<input type="text" id="J_input"/>
+</body>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+	//第一种，毫无封装的概念，这段代码没法拿出去用，基本就是费的。
+	/*$(function(){
+		var oInput = $('#J_input');
+
+		//用来获取字数
+		function getNum(){
+			return oInput.val().length;
+		}
+
+		//渲染元素
+		function render(){
+			var num = getNum();
+
+			if($('#J_num-count').length === 0){
+				oInput.after('<span id = "J_num-count"></span>')
+			}
+
+
+			$('#J_num-count').html(num + '个字');
+		}
+
+		oInput.on('keyup',function(){
+			render();
+		});
+	});*/
+	//第二种：简单的作用于隔离，使用单个变量模拟命名空间,这种写法没有私有的概念，比如上面的getNum,bindEvent应该都是私有的方法。但是其他代码可以很随意的改动这些。当代码量特别特别多的时候，很容易出现变量重复，或被修改的问题。
+	/*var textCount = {
+		oInput : null,
+		init : function(config){
+			this.oInput = $(config.id);
+			this.bindEvent();
+
+			return this;
+		},
+
+		bindEvent : function(){
+			var self = this;
+			this.oInput.on('keyup',function(){
+				self.render();
+			});
+		},
+		getNum : function(){
+			return this.oInput.val().length;
+		},
+		render : function(){
+			var num = this.getNum();
+
+			if($('#J_num-count').length === 0){
+				this.oInput.after('<span id = "J_num-count"></span>')
+			}
+
+
+			$('#J_num-count').html(num + '个字');
+		}
+	};
+
+	$(function() {
+	  //在domready后调用
+	  textCount.init({id:'#J_input'}).render();
+	});*/
+	//第三种：闭包的写法,这种写法，把所有的东西都包在了一个自动执行的闭包里面，所以不会受到外面的影响，并且只对外公开了TextCountFn构造函数，生成的对象只能访问到init,render方法。这种写法已经满足绝大多数的需求了。事实上大部分的jQuery插件都是这种写法。
+	var textCount = (function(){
+
+		//私有方法，外面没法访问,事件绑定
+		var _bindEvent = function(that){
+			that.oInput.on('keyup',function(){
+				that.render();
+			});
+		};
+		var _getNum = function(that){
+			return that.oInput.val().length;
+		};
+
+		var TextCountFn = function(config){
+			this.oInput = $(config.id);
+		};
+
+		TextCountFn.prototype.init = function(){
+			_bindEvent(this);
+
+			return this;
+		};
+
+		TextCountFn.prototype.render = function(){
+			var num  = _getNum(this);
+
+			if($('#J_num-count').length === 0){
+				this.oInput.after('<span id = "J_num-count"></span>')
+			}
+
+
+			$('#J_num-count').html(num + '个字');
+		}
+
+		return TextCountFn;
+
+	})();
+
+
+	$(function() {
+	  new textCount({id:'#J_input'}).init().render();
+	})
+
+
+</script>
+</html>
