@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+    <title>按时分秒</title>
+    <script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
+    <style type="text/css">
+        *{padding:0;margin:0;}
+        body{font-size:16px;}
+        .timeBox{color:#6dbec5;margin:10px auto;}
+        .time{border: 1px solid #6dbec5;width: 40px;height: 20px;text-align: center; line-height: 20px;display: inline-block;}
+    </style>
+</head>
+<body>
+
+    <div class="timeBox" id="times1">
+        距结束
+        <span class="time date">00</span> 天 <span class="time hour">00</span> : <span class="time minutes">00</span> : <span class="time seconds">00</span>
+    </div>
+    <div class="timeBox" id="times2">
+        距结束
+        <span class="time date">00</span> 天 <span class="time hour">00</span> : <span class="time minutes">00</span> : <span class="time seconds">00</span>
+    </div>
+</body>
+<script type="text/javascript">
+	function freshTime(id,time){
+		var endTime = new Date(time);
+		var nowTime = new Date();//当前时间
+
+		var leftTime = parseInt((endTime.getTime() - nowTime.getTime())/1000);
+
+		var day = parseInt(leftTime/3600/24);
+		var hours = parseInt((leftTime/3600) % 24);
+		var min = parseInt((leftTime/60) % 60);
+		var second = parseInt(leftTime %60);
+
+		if(day < 10){
+			day = '0' + day;
+		}
+		if(hours < 10){
+			hours = '0' + hours;
+		}
+		if(min < 10){
+			min = '0' + min;
+		}
+		if(second < 10){
+			second = '0' + second;
+		}
+		$(id).find('.date').text(day);
+		$(id).find('.hour').text(hours);
+		$(id).find('.minutes').text(min);
+		$(id).find('.seconds').text(second);
+
+		if(leftTime < 0){
+			$(id).find('.date').text('00');
+			$(id).find('.hour').text('00');
+			$(id).find('.minutes').text('00');
+			$(id).find('.seconds').text('00');
+			clearInterval(sh);
+		}	
+	}
+
+	var sh ;
+	sh = setInterval(function(){
+		freshTime("#times1","2016/06/30,20:00:00");
+        freshTime("#times2","2016/06/18,23:59:59");
+	},1000);
+</script>
+</html>
